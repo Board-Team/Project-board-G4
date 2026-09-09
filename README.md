@@ -1,4 +1,4 @@
-# 📚 Ink & Pages | E-Commerce Web Platform
+# 📚 HNDM & Pages | E-Commerce Web Platform
 
 <div align="center">
 
