@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Marketplace - Ink & Pages</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .shop-layout { display: grid; grid-template-columns: 240px 1fr; gap: 30px; margin-top: 30px; align-items: start; }
+    .filter-box { background: var(--bg-card); padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); position: sticky; top: 100px; }
+    .filter-group { margin-bottom: 22px; }
+    .filter-group h4 { margin-bottom: 10px; font-size: 0.95rem; }
+    .search-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-main); color: var(--text-main); font-family: inherit; }
+    .search-field { position: relative; }
+    .search-field i { position: absolute; top: 50%; left: 12px; color: var(--text-muted); transform: translateY(-50%); pointer-events: none; }
+    .search-field .search-input { padding-left: 38px; }
+    .search-field:focus-within i { color: var(--primary); }
+    .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); font-size: 0.8rem; cursor: pointer; background: var(--bg-main); color: var(--text-muted); transition: var(--transition); }
+    .chip.active, .chip:hover { border-color: var(--primary); color: var(--primary); }
+    .reset-filters { width: 100%; margin-top: 5px; }
+    .shop-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: var(--text-muted); font-size: 0.9rem; }
+    .no-results { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .no-results i { font-size: 2.5rem; margin-bottom: 15px; color: var(--border); }
+    .stock-line { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px; }
+    .stock-in { color: var(--success, #16a34a); font-weight: 600; }
+    .stock-low { color: var(--accent); font-weight: 600; }
+    @media (max-width: 768px) { .shop-layout { grid-template-columns: 1fr; } .filter-box { position: static; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container navbar">
+      <a href="index.html" class="logo"><i class="fa-solid fa-book-open-reader"></i> Ink&Pages</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="project.html" class="active">Shop / Products</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <i class="fa-solid fa-moon icon-btn" id="theme-toggle"></i>
+        <button class="icon-btn" id="cart-btn"><i class="fa-solid fa-cart-shopping"></i><span class="cart-count" id="cart-count">0</span></button>
+        <a href="login.html" class="btn btn-outline" style="padding: 6px 16px;">Login</a>
+        <i class="fa-solid fa-bars hamburger" id="hamburger"></i>
+      </div>
+    </div>
+  </header>
+
+  <div class="container section">
+    <div class="section-title">
+      <h2>Products Marketplace</h2>
+      <p>Filter, search, and find premium materials for study and creativity</p>
+    </div>
+
+    <div class="shop-layout">
+      <aside class="filter-box">
+        <div class="filter-group">
+          <h4>Search</h4>
+          <div class="search-field">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search books, pens..." aria-label="Search products">
+          </div>
+        </div>
+        <div class="filter-group">
+          <h4>Category</h4>
+          <div class="chip-group" id="category-chips">
+            <span class="chip active" data-category="all">All</span>
+            <span class="chip" data-category="Books">Books</span>
+            <span class="chip" data-category="Pens">Pens</span>
+            <span class="chip" data-category="Notebooks">Notebooks</span>
+            <span class="chip" data-category="Supplies">Supplies</span>
+          </div>
+        </div>
+        <div class="filter-group">
+          <h4>Sort By</h4>
+          <select id="sort-select" class="search-input">
+            <option value="popular">Most Popular</option>
+            <option value="low-high">Price: Low &rarr; High</option>
+            <option value="high-low">Price: High &rarr; Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+        </div>
+        <button class="btn btn-outline reset-filters" id="reset-filters">Reset Filters</button>
+      </aside>
+
+      <div>
+        <div class="shop-toolbar">
+          <span id="results-count">8 products</span>
+        </div>
+        <div class="product-grid" id="market-products">
+
+          <div class="product-card" data-name="Python Programming Book" data-category="Books" data-price="29.99" data-rating="4.9">
+            <div class="product-img-box">
+              <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80" alt="Python Programming Book">
+            </div>
+            <div class="product-info">
+              <span class="product-category">Books</span>
+              <h3 class="product-title">Python Programming Book</h3>
+              <p class="stock-line">Stock Status: <span class="stock-in">In Stock</span></p>
+              <div class="rating"><i class="fa-solid fa-star"></i> 4.9</div>
+              <div class="price-box"><span class="price">$29.99</span></div>
+              <button class="btn btn-primary" onclick="addToCart({id: '3', name: 'Python Programming Book', price: 29.99, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80'})"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card" data-name="Premium Black Fountain Pen" data-category="Pens" data-price="45.00" data-rating="5.0">
+            <div class="product-img-box">
+              <img src="https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=400&q=80" alt="Premium Black Fountain Pen">
+            </div>
+            <div class="product-info">
+              <span class="product-category">Pens</span>
+              <h3 class="product-title">Premium Black Fountain Pen</h3>
+              <p class="stock-line">Stock Status: <span class="stock-in">In Stock</span></p>
+              <div class="rating"><i class="fa-solid fa-star"></i> 5.0</div>
+              <div class="price-box"><span class="price">$45.00</span></div>
+              <button class="btn btn-primary" onclick="addToCart({id: '4', name: 'Premium Black Fountain Pen', price: 45.00, image: 'https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=400&q=80'})"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card" data-name="English Grammar Book" data-category="Books" data-price="19.99" data-rating="4.8">
+            <div class="product-img-box">
+              <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" alt="English Grammar Book">
+            </div>
+            <div class="product-info">
+              <span class="product-category">Books</span>
+              <h3 class="product-title">English Grammar Book</h3>
+              <p class="stock-line">Stock Status: <span class="stock-in">In Stock</span></p>
+              <div class="rating"><i class="fa-solid fa-star"></i> 4.8</div>
+              <div class="price-box"><span class="price">$19.99</span></div>
+              <button class="btn btn-primary" onclick="addToCart({id: '1', name: 'English Grammar Book', price: 19.99, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80'})"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card" data-name="Gel Pen Set (12 Colors)" data-category="Pens" data-price="12.50" data-rating="4.9">
+            <div class="product-img-box">
+              <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=400&q=80" alt="Gel Pen Set">
+            </div>
+            <div class="product-info">
+              <span class="product-category">Pens</span>
+              <h3 class="product-title">Gel Pen Set (12 Colors)</h3>
+              <p class="stock-line">Stock Status: <span class="stock-in">In Stock</span></p>
+              <div class="rating"><i class="fa-solid fa-star"></i> 4.9</div>
+              <div class="price-box"><span class="price">$12.50</span><span class="old-price">$15.00</span></div>
+              <button class="btn btn-primary" onclick="addToCart({id: '2', name: 'Gel Pen Set (12 Colors)', price: 12.50, image: 'https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=400&q=80'})"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card" data-name="Hardcover Ruled Notebook" data-category="Notebooks" data-price="8.99" data-rating="4.7">
+            <div class="product-img-box">
+              <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=400&q=80" alt="Hardcover Ruled Notebook">
+            </div>
+            <div class="product-info">
+              <span class="product-category">Notebooks</span>
+              <h3 class="product-title">Hardcover Ruled Notebook</h3>
+              <p class="stock-line">Stock Status: <span class="stock-in">In Stock</span></p>
+              <div class="rating"><i class="fa-solid fa-star"></i> 4.7</div>
+              <div class="price-box"><span class="price">$8.99</span></div>
+              <button class="btn btn-primary" onclick="addToCart({id: '5', name: 'Hardcover Ruled Notebook', price: 8.99, image: 'https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=400&q=80'})"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card" data-name="Classic Literature Boxset" data-category="Books" data-price="54.00" data-rating="4.9">
+            <div class="product-img-box">
+              <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=400&q=80" alt="Classic Literature Boxset">
+            </div>
+            <div class="product-info">
+              <span class="product-category">Books</span>
+              <h3 class="product-title">Classic Literature Boxset</h3>
+              <p class="stock-line">Stock Status: <span class="stock-low">Only 3 left</span></p>
+              <div class="rating"><i class="fa-solid fa-star"></i> 4.9</div>
+              <div class="price-box"><span class="price">$54.00</span></div>
+              <button class="btn btn-primary" onclick="addToCart({id: '6', name: 'Classic Literature Boxset', price: 54.00, image: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=400&q=80'})"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card" data-name="Mechanical Pencil Set" data-category="Pens" data-price="9.50" data-rating="4.6">
+            <div class="product-img-box">
+              <img src="https://images.unsplash.com/photo-1568205612837-017257d2310a?auto=format&fit=crop&w=400&q=80" alt="Mechanical Pencil Set">
+            </div>
+            <div class="product-info">
+              <span class="product-category">Pens</span>
+              <h3 class="product-title">Mechanical Pencil Set</h3>
+              <p class="stock-line">Stock Status: <span class="stock-in">In Stock</span></p>
+              <div class="rating"><i class="fa-solid fa-star"></i> 4.6</div>
+              <div class="price-box"><span class="price">$9.50</span></div>
+              <button class="btn btn-primary" onclick="addToCart({id: '7', name: 'Mechanical Pencil Set', price: 9.50, image: 'https://images.unsplash.com/photo-1568205612837-017257d2310a?auto=format&fit=crop&w=400&q=80'})"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card" data-name="Desk Organizer Kit" data-category="Supplies" data-price="24.00" data-rating="4.5">
+            <div class="product-img-box">
+              <img src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=400&q=80" alt="Desk Organizer Kit">
+            </div>
+            <div class="product-info">
+              <span class="product-category">Supplies</span>
+              <h3 class="product-title">Desk Organizer Kit</h3>
+              <p class="stock-line">Stock Status: <span class="stock-in">In Stock</span></p>
+              <div class="rating"><i class="fa-solid fa-star"></i> 4.5</div>
+              <div class="price-box"><span class="price">$24.00</span></div>
+              <button class="btn btn-primary" onclick="addToCart({id: '8', name: 'Desk Organizer Kit', price: 24.00, image: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=400&q=80'})"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="no-results" id="no-results" hidden>
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <p>No products match your filters. Try clearing them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <i class="fa-solid fa-xmark icon-btn" id="close-cart"></i>
+    </div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-footer">
+      <div class="cart-total"><span>Total:</span><span id="cart-total-price">$0.00</span></div>
+      <button class="btn btn-primary" style="width: 100%; justify-content: center;">Checkout</button>
+    </div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <footer>
+    <div class="container footer-bottom">&copy; 2026 Ink & Pages Store. All rights reserved.</div>
+  </footer>
+  <script src="js/script.js"></script>
+</body>
+</html>
