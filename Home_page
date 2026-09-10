@@ -104,7 +104,7 @@
       <ul class="nav-links" id="nav-links">
         <li><a href="index.html" class="active">Home</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="project.html">Shop / Products</a></li>
+        <li><a href="Project.html">Shop / Products</a></li>
         <li><a href="contact.html">Contact Us</a></li>
       </ul>
       <div class="nav-actions">
