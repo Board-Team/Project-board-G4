@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ink & Pages - Modern Book & Pen Shop</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .hero {
+      padding: 100px 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 40px;
+    }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-light); color: var(--primary); padding: 6px 14px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; margin-bottom: 18px; }
+    .hero-title { font-size: 3rem; line-height: 1.2; margin-bottom: 20px; }
+    .hero-subtitle { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px; max-width: 480px; }
+    .hero-btns { display: flex; gap: 15px; }
+    .hero-img { position: relative; }
+    .hero-img img { width: 100%; max-width: 500px; border-radius: var(--radius); filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15)); }
+    .hero-badge { position: absolute; bottom: 20px; left: -10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 20px; box-shadow: var(--shadow-hover); display: flex; align-items: center; gap: 12px; }
+    .hero-badge i { font-size: 1.6rem; color: var(--accent); }
+    .hero-badge strong { display: block; font-size: 1.1rem; }
+    .hero-badge span { color: var(--text-muted); font-size: 0.8rem; }
+
+    .brand-strip { padding: 30px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .brand-strip p { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px; }
+    .brand-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; color: var(--text-muted); font-weight: 600; font-size: 1.05rem; }
+    .brand-row span { display: flex; align-items: center; gap: 8px; opacity: 0.8; }
+
+    .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
+    .cat-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 25px 15px; text-align: center; cursor: pointer; transition: var(--transition);
+    }
+    .cat-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+    .cat-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 12px; }
+    .cat-card p { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
+
+    .section-head-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; gap: 20px; flex-wrap: wrap; }
+    .section-head-row .section-title { text-align: left; margin-bottom: 0; }
+    .view-all-link { font-weight: 600; color: var(--primary); white-space: nowrap; }
+    .view-all-link i { margin-left: 6px; transition: var(--transition); }
+    .view-all-link:hover i { transform: translateX(4px); }
+
+    .promo-banner {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white; border-radius: var(--radius); padding: 50px; text-align: center; margin: 60px 0;
+    }
+    .countdown-box { font-size: 1.8rem; font-weight: 700; margin: 20px 0; display: flex; justify-content: center; gap: 15px; }
+    .countdown-box span { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 8px; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; }
+    .feature-card { text-align: center; padding: 30px; background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border); }
+    .feature-card i { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+
+    .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .testimonial-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; }
+    .testimonial-stars { color: var(--accent); margin-bottom: 15px; }
+    .testimonial-card p.quote { color: var(--text-main); margin-bottom: 20px; line-height: 1.7; }
+    .testimonial-person { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+    .testimonial-person strong { display: block; font-size: 0.95rem; }
+    .testimonial-person span { color: var(--text-muted); font-size: 0.8rem; }
+
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
+    .blog-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: var(--transition); }
+    .blog-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .blog-card img { width: 100%; height: 170px; object-fit: cover; }
+    .blog-card-body { padding: 20px; }
+    .blog-tag { font-size: 0.75rem; color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .blog-card h3 { margin: 8px 0; font-size: 1.05rem; }
+    .blog-card p { color: var(--text-muted); font-size: 0.9rem; }
+    .blog-read-more { display: inline-block; margin-top: 12px; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+
+    .newsletter-band {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 50px; text-align: center; margin: 60px 0;
+    }
+    .newsletter-band h2 { font-size: 1.8rem; margin-bottom: 10px; }
+    .newsletter-band p { color: var(--text-muted); margin-bottom: 25px; }
+    .newsletter-form { display: flex; gap: 10px; max-width: 440px; margin: 0 auto; }
+    .newsletter-form input { flex: 1; padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-input); color: var(--text-main); font-family: inherit; }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-btns { justify-content: center; }
+      .hero-subtitle { margin: 0 auto 30px; }
+      .hero-badge { position: static; margin-top: 20px; justify-content: center; }
+      .section-head-row { flex-direction: column; align-items: flex-start; }
+      .newsletter-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container navbar">
+      <a href="index.html" class="logo"><i class="fa-solid fa-book-open-reader"></i> Ink&Pages</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="Product.html">Shop / Products</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <i class="fa-solid fa-moon icon-btn" id="theme-toggle" title="Toggle Theme"></i>
+        <button class="icon-btn" id="cart-btn">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-count" id="cart-count">0</span>
+        </button>
+        <a href="login.html" class="btn btn-outline" style="padding: 6px 16px;">Login</a>
+        <i class="fa-solid fa-bars hamburger" id="hamburger"></i>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <section class="hero">
+      <div>
+        <span class="hero-eyebrow"><i class="fa-solid fa-star"></i> Rated 4.9 by 500+ readers</span>
+        <h1 class="hero-title">Discover Your Next Favorite Book</h1>
+        <p class="hero-subtitle">Books, pens, and premium school supplies crafted for every learner, writer, and thinker.</p>
+        <div class="hero-btns">
+          <a href="project.html" class="btn btn-primary"><i class="fa-solid fa-book"></i> Shop Books</a>
+          <a href="project.html" class="btn btn-outline"><i class="fa-solid fa-pen-nib"></i> Shop Pens</a>
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Books and Pens Showcase">
+        <div class="hero-badge">
+          <i class="fa-solid fa-truck-fast"></i>
+          <div>
+            <strong>Free Delivery</strong>
+            <span>On orders over $40</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="brand-strip">
+    <div class="container">
+      <p>Supplying classrooms and desks at</p>
+      <div class="brand-row">
+        <span><i class="fa-solid fa-graduation-cap"></i> Knowledge City University</span>
+        <span><i class="fa-solid fa-school"></i> Riverside High</span>
+        <span><i class="fa-solid fa-building-columns"></i> Cedar Grove Library</span>
+        <span><i class="fa-solid fa-people-group"></i> Bright Minds Academy</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-title">
+        <h2>Explore Categories</h2>
+        <p>Find exact materials for your educational needs</p>
+      </div>
+      <div class="categories-grid">
+        <a href="project.html" class="cat-card"><i class="fa-solid fa-book"></i><h3>Books</h3><p>240+ titles</p></a>
+        <a href="project.html" class="cat-card"><i class="fa-solid fa-pen"></i><h3>Pens</h3><p>60+ options</p></a>
+        <a href="project.html" class="cat-card"><i class="fa-solid fa-book-bookmark"></i><h3>Notebooks</h3><p>35+ styles</p></a>
+        <a href="project.html" class="cat-card"><i class="fa-solid fa-school"></i><h3>Supplies</h3><p>50+ items</p></a>
+        <a href="project.html" class="cat-card"><i class="fa-solid fa-pencil"></i><h3>Stationery</h3><p>80+ items</p></a>
+        <a href="project.html" class="cat-card"><i class="fa-solid fa-gift"></i><h3>Gifts</h3><p>20+ bundles</p></a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head-row">
+        <div class="section-title">
+          <h2>Featured Products</h2>
+          <p>Our top selections for this season</p>
+        </div>
+        <a href="project.html" class="view-all-link">View all products <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-img-box">
+            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80" alt="English Grammar Book">
+            <div class="card-actions">
+              <button class="action-btn"><i class="fa-regular fa-heart"></i></button>
+              <button class="action-btn"><i class="fa-regular fa-eye"></i></button>
+            </div>
+          </div>
+          <div class="product-info">
+            <span class="product-category">Books</span>
+            <h3 class="product-title">English Grammar Book</h3>
+            <div class="rating"><i class="fa-solid fa-star"></i> 4.8</div>
+            <div class="price-box"><span class="price">$19.99</span></div>
+            <button class="btn btn-primary" onclick="addToCart({id: '1', name: 'English Grammar Book', price: 19.99, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80'})">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img-box">
+            <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=400&q=80" alt="Gel Pen Set">
+            <div class="card-actions">
+              <button class="action-btn"><i class="fa-regular fa-heart"></i></button>
+              <button class="action-btn"><i class="fa-regular fa-eye"></i></button>
+            </div>
+          </div>
+          <div class="product-info">
+            <span class="product-category">Pens</span>
+            <h3 class="product-title">Gel Pen Set (12 Colors)</h3>
+            <div class="rating"><i class="fa-solid fa-star"></i> 4.9</div>
+            <div class="price-box"><span class="price">$12.50</span><span class="old-price">$15.00</span></div>
+            <button class="btn btn-primary" onclick="addToCart({id: '2', name: 'Gel Pen Set (12 Colors)', price: 12.50, image: 'https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=400&q=80'})">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img-box">
+            <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=400&q=80" alt="Hardcover Ruled Notebook">
+            <div class="card-actions">
+              <button class="action-btn"><i class="fa-regular fa-heart"></i></button>
+              <button class="action-btn"><i class="fa-regular fa-eye"></i></button>
+            </div>
+          </div>
+          <div class="product-info">
+            <span class="product-category">Notebooks</span>
+            <h3 class="product-title">Hardcover Ruled Notebook</h3>
+            <div class="rating"><i class="fa-solid fa-star"></i> 4.7</div>
+            <div class="price-box"><span class="price">$8.99</span></div>
+            <button class="btn btn-primary" onclick="addToCart({id: '5', name: 'Hardcover Ruled Notebook', price: 8.99, image: 'https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=400&q=80'})">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img-box">
+            <img src="https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=400&q=80" alt="Premium Black Fountain Pen">
+            <div class="card-actions">
+              <button class="action-btn"><i class="fa-regular fa-heart"></i></button>
+              <button class="action-btn"><i class="fa-regular fa-eye"></i></button>
+            </div>
+          </div>
+          <div class="product-info">
+            <span class="product-category">Pens</span>
+            <h3 class="product-title">Premium Black Fountain Pen</h3>
+            <div class="rating"><i class="fa-solid fa-star"></i> 5.0</div>
+            <div class="price-box"><span class="price">$45.00</span></div>
+            <button class="btn btn-primary" onclick="addToCart({id: '4', name: 'Premium Black Fountain Pen', price: 45.00, image: 'https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=400&q=80'})">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="promo-banner">
+      <h2>Back to School Sale – Up to 30% OFF</h2>
+      <p>Grab your essential books and pens before stock runs out!</p>
+      <div class="countdown-box" id="countdown">Loading timer...</div>
+      <a href="project.html" class="btn btn-outline" style="border-color: white; color: white;">Shop Promo Now</a>
+    </section>
+
+    <section class="section">
+      <div class="section-head-row">
+        <div class="section-title">
+          <h2>Best Sellers</h2>
+          <p>What other students and readers are loving right now</p>
+        </div>
+        <a href="project.html" class="view-all-link">Browse the shop <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-img-box">
+            <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=400&q=80" alt="Classic Literature Boxset">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Books</span>
+            <h3 class="product-title">Classic Literature Boxset</h3>
+            <div class="rating"><i class="fa-solid fa-star"></i> 4.9</div>
+            <div class="price-box"><span class="price">$54.00</span></div>
+            <button class="btn btn-primary" onclick="addToCart({id: '6', name: 'Classic Literature Boxset', price: 54.00, image: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=400&q=80'})">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img-box">
+            <img src="https://images.unsplash.com/photo-1568205612837-017257d2310a?auto=format&fit=crop&w=400&q=80" alt="Mechanical Pencil Set">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Pens</span>
+            <h3 class="product-title">Mechanical Pencil Set</h3>
+            <div class="rating"><i class="fa-solid fa-star"></i> 4.6</div>
+            <div class="price-box"><span class="price">$9.50</span></div>
+            <button class="btn btn-primary" onclick="addToCart({id: '7', name: 'Mechanical Pencil Set', price: 9.50, image: 'https://images.unsplash.com/photo-1568205612837-017257d2310a?auto=format&fit=crop&w=400&q=80'})">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img-box">
+            <img src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=400&q=80" alt="Desk Organizer Kit">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Supplies</span>
+            <h3 class="product-title">Desk Organizer Kit</h3>
+            <div class="rating"><i class="fa-solid fa-star"></i> 4.5</div>
+            <div class="price-box"><span class="price">$24.00</span></div>
+            <button class="btn btn-primary" onclick="addToCart({id: '8', name: 'Desk Organizer Kit', price: 24.00, image: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=400&q=80'})">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img-box">
+            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" alt="Python Programming Book">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Books</span>
+            <h3 class="product-title">Python Programming Book</h3>
+            <div class="rating"><i class="fa-solid fa-star"></i> 4.9</div>
+            <div class="price-box"><span class="price">$29.99</span></div>
+            <button class="btn btn-primary" onclick="addToCart({id: '3', name: 'Python Programming Book', price: 29.99, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80'})">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Why Shop With Us</h2>
+        <p>The little details that make ordering easy</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fa-solid fa-truck-fast"></i>
+          <h3>Fast Delivery</h3>
+          <p>Worldwide swift shipping options</p>
+        </div>
+        <div class="feature-card">
+          <i class="fa-solid fa-shield-halved"></i>
+          <h3>Secure Payment</h3>
+          <p>100% encrypted transaction methods</p>
+        </div>
+        <div class="feature-card">
+          <i class="fa-solid fa-award"></i>
+          <h3>Quality Products</h3>
+          <p>Verified learning materials</p>
+        </div>
+        <div class="feature-card">
+          <i class="fa-solid fa-headset"></i>
+          <h3>Customer Support</h3>
+          <p>24/7 dedicated service desk</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>What Our Customers Say</h2>
+        <p>Real feedback from students, teachers, and readers</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="quote">Ordered a set of notebooks and pens for my classroom and everything arrived two days early. The quality beats what I usually find in stores.</p>
+          <div class="testimonial-person">
+            <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="Portrait of Amara Osei">
+            <div>
+              <strong>Amara Osei</strong>
+              <span>Middle School Teacher</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="quote">The fountain pen is smooth and well balanced, and checkout took less than a minute. I've already reordered ink refills.</p>
+          <div class="testimonial-person">
+            <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" alt="Portrait of Marcus Lee">
+            <div>
+              <strong>Marcus Lee</strong>
+              <span>University Student</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+          <p class="quote">Great range of classic literature at fair prices, and support answered my question about a delayed order within the hour.</p>
+          <div class="testimonial-person">
+            <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" alt="Portrait of Priya Nair">
+            <div>
+              <strong>Priya Nair</strong>
+              <span>Book Club Organizer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>From the Reading Corner</h2>
+        <p>Tips, guides, and reads worth your time</p>
+      </div>
+      <div class="blog-grid">
+        <div class="blog-card">
+          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=400&q=80" alt="Stack of open books">
+          <div class="blog-card-body">
+            <span class="blog-tag">Study Tips</span>
+            <h3>Five ways to build a daily reading habit</h3>
+            <p>Small, consistent sessions beat rare marathon reads. Here's how to make books a fixed part of your day.</p>
+            <a href="#" class="blog-read-more">Read more &rarr;</a>
+          </div>
+        </div>
+        <div class="blog-card">
+          <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=400&q=80" alt="Notebook and pen on desk">
+          <div class="blog-card-body">
+            <span class="blog-tag">Stationery</span>
+            <h3>Choosing the right pen for your handwriting</h3>
+            <p>Fountain, gel, or ballpoint — the ink and grip you pick can change how comfortable writing feels.</p>
+            <a href="#" class="blog-read-more">Read more &rarr;</a>
+          </div>
+        </div>
+        <div class="blog-card">
+          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80" alt="Bookshelf with organized books">
+          <div class="blog-card-body">
+            <span class="blog-tag">Organization</span>
+            <h3>Setting up a desk that keeps you focused</h3>
+            <p>A tidy layout for your notebooks, pens, and reading list can make study sessions far less stressful.</p>
+            <a href="#" class="blog-read-more">Read more &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="newsletter-band">
+      <h2>Get 10% off your first order</h2>
+      <p>Join our list for new arrivals, restocks, and seasonal sales — no spam, unsubscribe anytime.</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="you@example.com" required aria-label="Email address">
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3>Your Shopping Cart</h3>
+      <i class="fa-solid fa-xmark icon-btn" id="close-cart"></i>
+    </div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cart-total-price">$0.00</span>
+      </div>
+      <button class="btn btn-primary" style="width: 100%; justify-content: center;">Checkout</button>
+    </div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <button class="back-to-top" id="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="logo"><i class="fa-solid fa-book-open-reader"></i> Ink&Pages</a>
+        <p style="margin-top: 15px; color: var(--text-muted);">Empowering learners everywhere with top tier educational tools.</p>
+        <div style="display:flex; gap:14px; margin-top:20px;">
+          <a href="#" class="icon-btn" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" class="icon-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="icon-btn" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="project.html">Shop Catalog</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Contact</h3>
+        <p style="color: var(--text-muted);">📍 123 Education Way, Knowledge City</p>
+        <p style="color: var(--text-muted);">📞 +1 234 567 890</p>
+        <p style="color: var(--text-muted);">📧 info@inkandpages.com</p>
+      </div>
+      <div class="footer-col">
+        <h3>Stay Updated</h3>
+        <p style="color: var(--text-muted); margin-bottom: 12px;">Sales and new arrivals in your inbox.</p>
+        <form class="newsletter-form" style="max-width: none;">
+          <input type="email" placeholder="you@example.com" required aria-label="Email address">
+          <button type="submit" class="btn btn-primary" style="padding: 10px 16px;"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Ink & Pages Store. All rights reserved.
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
